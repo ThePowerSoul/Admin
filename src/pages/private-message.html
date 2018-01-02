@@ -1,0 +1,45 @@
+<style>
+    .private-message-container {
+        padding: 24px 0px 24px 24px;
+    }
+
+    .private-message-container .private-message-item {
+        height: 48px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background-color: rgb(255, 255, 255);
+        border-radius: 3px;
+        margin-top: 24px;
+        min-width: 500px;
+        padding: 16px;
+    }
+</style>
+<div class="private-message-container">
+    <span class="md-title-sm">消息列表：</span>
+    <div class="private-message-item" ng-repeat="message in messages" ng-click="expandConversation(message)">
+        <!-- 原第一句消息内容 -->
+        <div ng-show="!message.$Expand">
+            <span class="md-body-1" ng-bind="message.SenderName"></span>
+            <span class="md-body-1">发送给</span>
+            <span class="md-body-1" ng-bind="message.ReceiverName"></span>
+            <span class="md-body-1"> : </span>
+            <br>
+            <span class="md-body-1" ng-bind="message.Content"></span>
+        </div>
+
+        <!-- 展开后的消息列表 -->
+        <div class="message-conversation" ng-show="message.$Expand">
+            <div class="conversation-item" ng-repeat="item in message.Messages">
+                <span class="md-body-1" ng-bind="item.UserName"></span>
+                <span class="md-body-1">发送给</span>
+                <span class="md-body-1" ng-bind="item.TargetUserName"></span>
+                <span class="md-body-1" ng-bind="item.Content"></span>
+            </div>
+            <span class="md-body-1" ng-show="message.allowLoadMore" ng-click="getMessageConversation(true, message)">加载更多</span>
+            <div layout="row" layout-align="start center">
+                <input type="text" ng-model="message.NewMessage">
+                <md-button class="md-primary" ng-click="sendNewMessage(message)">发送</md-button>
+            </div>
+            <span class="md-body-1" ng-click="closeConversation(message)">收起</span>
+        </div>
+    </div>
+</div>

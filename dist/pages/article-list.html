@@ -1,0 +1,26 @@
+<style>
+    .article-list-container {
+        width: 1032px;
+		margin: 0 auto;
+        margin-top: 24px;
+    }
+    .article-list-container .edit-article{
+        outline: none;
+    }
+    .article-list-container .edit-article:hover{
+        color: lightblue;
+        cursor: pointer;
+    }
+    .article-list-container .article-title {
+        cursor: pointer;
+    }
+    .article-list-container .article-list-operation {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.54);
+        outline: none;
+    }
+    .article-list-container .article-list-operation:hover {
+        cursor: pointer;
+        color: lightblue;
+    }
+</style><div class=article-list-container><md-content><md-tabs md-dynamic-height md-border-bottom><md-tab label=我的文章><md-content class=md-padding><md-list flex><md-subheader class=md-no-sticky>{{'文章列表(' + articles.length + '): '}}</md-subheader><md-list-item class=md-3-line ng-repeat="article in articles"><div class=md-list-item-text layout=column><span class="md-body-1 article-title" ng-click=goToArticleDetail(article)>{{ article.Title !== '' ? article.Title : '未命名' }}</span> <span class=md-body-1>{{ article.Author }}</span> <span class="md-body-1 edit-article" ng-click="editArticle(article, $event)">编辑</span> <i class="fa fa-trash article-list-operation" ng-click="deleteArticle(article, $event)" aria-hidden=true></i></div></md-list-item></md-list></md-content></md-tab><md-tab label=我的草稿><md-content class=md-padding><md-list flex><md-subheader class=md-no-sticky>{{'草稿列表(' + articleDrafts.length + '): '}}</md-subheader><md-list-item class=md-3-line ng-repeat="article in articleDrafts"><div class=md-list-item-text layout=column><h3>{{ article.Title !== '' ? article.Title : '未命名' }}</h3><h4>{{ article.Author }}</h4><span class="md-body-1 edit-article" ng-click=goToEdit(article)>编辑</span> <i class="fa fa-trash article-list-operation" ng-click="deleteArticleDraft(article, $event)" aria-hidden=true></i></div></md-list-item></md-list></md-content></md-tab></md-tabs></md-content></div>

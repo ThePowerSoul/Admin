@@ -1,0 +1,33 @@
+<style>
+    .dialog-content-container {
+		min-width: 500px !important;
+		height: 568px !important;
+		padding: 24px;
+	}
+    .dialog-content-container .dialog-close-button {
+        outline: none;
+    }
+    .dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+    .search-results-container {
+        overflow-y: auto;
+        height: 400px;
+        width: 100%;
+    }
+    .search-results-container .search-results-item {
+        width: 100%;
+        margin-top: 16px;
+        padding: 8px;
+        box-sizing: border-box;
+        outline: none;
+    }
+    .search-results-item .user-name:hover {
+        color: lightblue;
+        cursor: pointer;
+        outline: none;
+    }
+    .dialog-content-container .search-reminder-text {
+        color: rgba(0, 0, 0, 0.54);
+    }
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div><md-input-container class="md-icon-float md-block"><input placeholder=请输入用户完整邮箱或关键字，回车搜索... ng-disabled=isSearching ng-model=searchContext type=text ng-keypress=searchForUsers($event)></md-input-container><div class=search-results-container ng-show="users.length === 0 && !isSearching"><span class="md-body-1 search-reminder-text">当前没有搜索结果</span></div><div class=search-results-container ng-show=isSearching><span class=text-default><md-icon class="fa-spinner lui-spinner small"></md-icon>正在搜索，请稍等</span></div><div class=search-results-container ng-show="users.length > 0 && !isSearching"><div layout=row layout-align="start center"><span flex=30>用户名</span> <span flex>邮箱</span> <span flex=8></span></div><div layout=column><div class=search-results-item layout=row layout-align="start center" ng-repeat="user in users"><span class=user-name ng-bind=user.DisplayName ng-click="goToUserPage($event, user);" flex=30></span> <span ng-bind=user.Email flex></span><md-button class="md-raised md-primray" flex=8 ng-click="sendPrivateMessage($event, user)">发私信</md-button></div><md-divider ng-show="users.length > 1"></md-divider></div></div></div></md-dialog>

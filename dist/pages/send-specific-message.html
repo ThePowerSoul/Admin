@@ -1,0 +1,32 @@
+<style type=text/css>
+	.dialog-content-container {
+		min-width: 500px !important;
+		height: 500px !important;
+		padding: 24px;
+	}
+	.dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+	}
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+	.dialog-content-container .message-content {
+		height: 366px;
+		padding: 8px;
+		width: 100%;
+		margin: 0px 0px 24px 0px;
+		resize: none;
+	}
+    .dialog-send-private-message .user-card {
+        background-color: lightblue;
+        border-radius: 16px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    .dialog-send-private-message .user-card-container {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div class=dialog-send-private-message layout=column><div><div class=user-card-container ng-show="targetUserInfo !== null"><div class=user-card layout=row layout-align="start center"><span class="md-body-1 user-search-result-card" ng-bind=targetUserInfo.Email flex=50></span> <span class=md-body-1 ng-bind=targetUserInfo.DisplayName flex=50></span></div></div></div><textarea class=message-content ng-model=newMessage placeholder=请输入私信内容></textarea><md-button class="md-raised md-primary" ng-click=submit($event) ng-disabled="newMessage === '' || targetUserInfo === null">提交</md-button></div></md-dialog>

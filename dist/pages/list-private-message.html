@@ -1,0 +1,46 @@
+<style type=text/css>
+	.dialog-content-container {
+		min-width: 500px !important;
+		height: 500px !important;
+		padding: 24px;
+	}
+	.dialog-content-container .message-container {
+		height: 428px;
+		max-height: 428px;
+		overflow-y: auto;
+		margin-top: 24px;
+		margin-bottom: 24px;
+		padding: 0px 16px 0px 16px;
+	}
+	.message-container .message-item {
+		height: 48px;
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 1);
+		background-color: rgb(255, 255, 255);
+		border-radius: 16px;
+		margin: 8px 0px 8px 0px;
+		padding: 6px 0px 0px 16px;
+		width: 400px;
+		cursor: pointer;
+		outline: none;
+	}
+	.message-container .message-item:hover {
+		background-color: rgba(0, 0, 0, 0.12);
+	}
+	.message-item .message-content-dialog {
+		overflow: hidden;
+    	text-overflow: ellipsis;
+		color: rgba(0, 0, 0, 0.54);
+	}
+    .dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+	}
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+	.message-container .new-message-reminder {
+		color: #f44336;
+		font-size: 6px;
+		margin-right: 6px;
+	}
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div layout=column><div class=md-no-sticky>{{'私信列表(' + getUnReadMessageNumber() + '条未读): '}}</div><div class=message-container ng-show="messagesShowed.length !== 0"><div class=message-item ng-repeat="message in messagesShowed" ng-click="checkMessgeConversation(message, $event)" layout=column layout-align="center start"><div layout=row layout-align="start center"><i class="fa fa-circle new-message-reminder" ng-show="message.Status === '0' && message.TargetID === user._id" aria-hidden=true></i> <span class=md-body-1 flex=50>{{message.SenderName + ':'}}</span></div><span class="md-body-1 message-content-dialog" flex=50>{{message.Content}}</span></div></div><div class=message-container ng-show="messagesShowed.length === 0" layout=row layout-align="center center"><span class=md-body-1>当前没有未读消息</span></div><md-button class=md-raised ng-click=sendNewPrivateMessage($event)>发私信</md-button><md-button class=md-raised ng-click=showAllMessages($event)>查看全部</md-button></div></md-dialog>

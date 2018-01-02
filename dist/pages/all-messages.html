@@ -1,0 +1,42 @@
+<style>
+    .all-messages-container {
+        width: 1032px;
+        margin: 0 auto;
+        padding: 32px 0px 16px 0px;
+    }
+    .all-messages-container .title-container {
+        width: 586px;
+    }
+    .all-messages-container .message-conversation-container {
+        margin-top: 16px;
+        width: 586px;
+    }
+    .all-messages-container .message-item {
+        margin-top: 16px;
+    }
+    .message-item .message-content {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    .message-item .message-delete-button {
+        color: rgba(0, 0, 0, 0.54);
+    }
+    .message-item .message-check-conversation {
+        margin-right: 8px;
+        color: rgba(0, 0, 0, 0.54);
+    }
+    .message-item .message-delete-button:hover {
+        color: lightblue;
+        cursor: pointer;
+    }
+    .message-item .message-check-conversation:hover {
+        color: lightblue;
+        cursor: pointer;
+    }
+    .message-item .message-sent-time {
+        color: rgba(0, 0, 0, 0.54);
+    }
+    .message-item-divider {
+        margin-bottom: 16px;
+    }
+</style><div class=all-messages-container><div class=title-container layout=row layout-align="start center"><span class=md-body-1 flex>近期对话</span><md-button class="md-raised md-primary" ng-click=postNewMessage($event)>发私信</md-button></div><div class=message-conversation-container><div class=message-item ng-repeat="message in messages"><md-divider class=message-item-divider></md-divider><div layout=row layout-align="start center"><div flex><div layout=row layout-align="start center"><span class=md-body-1 ng-bind=message.SenderName></span> <span class=md-body-1>&nbsp;发给&nbsp;</span> <span class=md-body-1 ng-bind=message.ReceiverName></span> <span class=md-body-1>:</span></div><div class=message-content><span class=md-body-1 ng-bind=message.Content></span></div><div layout=row layout-align="start center"><span class="md-body-1 message-sent-time" ng-bind="message.CreatedAt | date:'MM/dd/yyyy hh:mm:ss'" flex></span><div class="md-body-1 message-check-conversation" ng-click="checkConversation(message, $event)">查看对话</div><div class="md-body-1 message-delete-button" ng-click="deleteWholeConversation(message, $event)">删除</div></div></div></div></div></div></div>

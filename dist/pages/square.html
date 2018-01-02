@@ -1,0 +1,160 @@
+<style>
+    .content-square-container {
+        width: 1032px;
+        margin: 0 auto;
+    }
+
+    .bbs-widget-container {
+        width: 586px;
+        margin: 24px 8px 24px 0px;
+        padding-left: 24px;
+        padding-right: 24px;
+        height: 65px;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    }
+
+    .bbs-widget-container .search-input {
+        width: 280px;
+        padding-left: 8px;
+    }
+
+    .bbs-widget-container .search-icon-button {
+        margin-left: 8px;
+    }
+
+    .bbs-widget-container .selector-container {
+        margin-left: 16px;
+    }
+
+    .bbs-widget-container .selector-widget {
+        width: 150px;
+    }
+
+    .bbs-widget-container .search-input-container {
+        margin-left: 24px;
+    }
+
+    .topic-card-container {
+        width: 586px;
+        overflow-y: auto;
+        margin-bottom: 24px;
+    }
+
+    .topic-card-container .load-more-container {
+        width: 100%;
+        height: 24px;
+        margin-top: 16px;
+    }
+
+    .load-more-container .load-more-button {
+        color: rgba(0, 0, 0, 0.54);
+        outline: none;
+    }
+
+    .load-more-container .load-more-button:hover {
+        color: lightblue;
+        cursor: pointer;
+    }
+
+    .topic-card {
+        min-height: 150px;
+        max-height: 200px;
+    }
+
+    .topic-card .fa {
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .topic-card .topic-title-container {
+        max-height: 32px;
+    }
+
+    .topic-card .topic-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        outline: none;
+        margin-right: 24px;
+        font-weight: bold;
+    }
+
+    .topic-card .topic-title:hover {
+        color: lightblue;
+    }
+
+    .topic-card .add-to-fav-button {
+        margin-right: 24px;
+        outline: none;
+    }
+
+    .topic-card .add-to-fav-button:hover {
+        cursor: pointer;
+        color: lightblue;
+    }
+
+    .topic-card .dislike-number {
+        margin-left: 8px;
+    }
+
+    .topic-card .topic-author {
+        margin-right: 24px;
+    }
+
+    .topic-card .topic-submit-time {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    .topic-card .topic-operation-container {
+        padding-left: 16px;
+        color: #8590a6;
+    }
+
+    .topic-content-container .topic-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        cursor: pointer;
+        line-height: 1.6;
+        outline: none;
+    }
+
+    .topic-content-container .topic-content:hover {
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .small {
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .content-square-container .recommend-panel {
+        margin: 24px 8px 24px 16px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .recommend-panel .recommend-title {
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .recommend-panel .topic-recommend {
+        min-height: 150px;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .recommend-panel .article-recommend {
+        min-height: 150px;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .content-square-container .article-content-container {
+        margin-left: 16px;
+        cursor: pointer;
+        outline: none;
+    }
+</style><div class=content-square-container layout=row><div><div class=bbs-widget-container layout=row layout-align="start center"><md-input-container><md-button ng-click=addNewTopic($event)><i class="fa fa-sticky-note small" aria-hidden=true></i> 发帖</md-button></md-input-container><md-input-container><md-button ng-click=addNewArticle($event)><i class="fa fa-file-text-o small" aria-hidden=true></i> 写文章</md-button></md-input-container><md-input-container><md-button ng-click=switchDisplay($event)>{{showTopic ? '看文章' : '看帖子'}}</md-button></md-input-container><div flex></div><div class=selector-container><md-select class=selector-widget ng-model=selectedItem ng-change=changeCategoryFilter()><md-option ng-value=item.Value ng-repeat="item in selectorItems">{{item.Title}}</md-option></md-select></div><div flex></div></div><div class=topic-card-container ng-show=showTopic><md-card class=topic-card ng-repeat="topic in topicList"><md-card-title class=topic-title-container><md-card-title-text layout=row layout-align="start center"><span class="md-body-1 topic-title" ng-click="goTopicDetail(topic, $event)" flex>{{topic.Title}}</span><div class=md-body-1 layout=row layout-align="start center"><span>[&nbsp;</span> <span ng-bind="topic.Category | categoryFilter"></span> <span>&nbsp;]</span></div></md-card-title-text></md-card-title><md-card-content class=topic-content-container><span class=topic-content ng-click=goTopicDetail(topic)>{{topic.Content}}</span></md-card-content><div class=topic-operation-container layout=row layout-align="start center"><div layout=row layout-align="start center"><span class="md-body-1 topic-author">{{topic.Author}}</span></div><div layout=row layout-align="start center"><span class="md-body-1 add-to-fav-button" ng-click="goAddTopicToFav(topic, $event)">收藏</span></div><div layout=row layout-align="start center"><span class="md-body-1 like-number">{{'&nbsp;' + topic.LikeUser.length + '&nbsp;'}}</span> <span class=md-body-1>个赞</span></div><div layout=row layout-align="start center"><span class="md-body-1 dislike-number">{{'&nbsp;' + topic.DislikeUser.length + '&nbsp;'}}</span> <span class=md-body-1>个踩</span></div><div class=topic-submit-time layout=row><span class=md-body-1>发表于&nbsp;</span> <span class=md-body-1>{{topic.CreatedAt | date:"MM/dd/yyyy '的' h:mma"}}</span></div></div></md-card><div class=load-more-container layout=row layout-align=center ng-show=!disableLoadMore><span class="load-more-button md-body-1" ng-click=loadMore()>加载更多</span></div></div><div class=topic-card-container ng-show=!showTopic><md-card class=topic-card ng-repeat="article in articleList"><md-card-title class=topic-title-container><md-card-title-text layout=row layout-align="start center"><span class="md-body-1 topic-title" ng-click="goArticleDetail(article, $event)" flex>{{article.Title}}</span><div class=md-body-1 layout=row layout-align="start center"><span>[&nbsp;</span> <span ng-bind="topic.Category | categoryFilter"></span> <span>&nbsp;]</span></div></md-card-title-text></md-card-title><div class=article-content-container><span class=topic-content ng-click="goArticleDetail(article, $event)" ng-bind-html="article.Content | to_trusted"></span></div><div class=topic-operation-container layout=row layout-align="start center"><div layout=row layout-align="start center"><span class="md-body-1 topic-author">{{article.Author}}</span></div><div layout=row layout-align="start center"><span class="md-body-1 add-to-fav-button" ng-click="goAddArticleToFav(article, $event)">收藏</span></div><div layout=row layout-align="start center"><span class="md-body-1 like-number">{{'&nbsp;' + article.LikeUser.length + '&nbsp;'}}</span> <span class=md-body-1>个赞</span></div><div layout=row layout-align="start center"><span class="md-body-1 dislike-number">{{'&nbsp;' + article.DislikeUser.length + '&nbsp;'}}</span> <span class=md-body-1>个踩</span></div><div class=topic-submit-time layout=row><span class=md-body-1>发表于&nbsp;</span> <span class=md-body-1>{{article.CreatedAt | date:"MM/dd/yyyy '的' h:mma"}}</span></div></div></md-card><div class=load-more-container layout=row layout-align=center ng-show=!disableLoadMoreArticle><span class="load-more-button md-body-1" ng-click=loadMoreArticle()>加载更多文章</span></div></div></div><div flex><div class=recommend-panel><div><span class="recommend-title md-body-1">热帖</span><div class=topic-recommend><span class=md-body-1 ng-show="hotTopics.length === 0">当前没有推荐的帖子</span><div class=topic-recommendation layout=row layout-align="start center" ng-repeat="topic in hotTopics track by $index"><span class=md-body-1>{{$index + 1}}</span> <span class=md-body-1 ng-bind=topic.Title ng-click=goTopicDetail(topic)></span> <span class=md-body-1>[</span> <span class=md-body-1 ng-bind=topic.Author></span> <span class=md-body-1>]</span></div></div></div><div><span class="recommend-title md-body-1">热文</span><div class=article-recommend><span class=md-body-1 ng-show="hotArticles.length === 0">当前没有推荐的文章</span><div class=article-recommendation layout=row layout-align="start center" ng-repeat="article in hotArticles track by $index"><span class=md-body-1>{{$index + 1}}</span> <span class=md-body-1 ng-bind=article.Title ng-click=goArticleDetail(article)></span> <span class=md-body-1>[</span> <span class=md-body-1 ng-bind=article.Author></span> <span class=md-body-1>]</span></div></div></div></div></div></div>

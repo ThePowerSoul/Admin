@@ -1,0 +1,232 @@
+<style type=text/css>
+	.topic-detail-container {
+		padding: 24px;
+		width: 1032px;
+		margin: 0 auto;
+	}
+
+	.topic-detail-container .topic-description-container {
+		min-height: 150px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 3px;
+		padding: 24px;
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 1);
+	}
+
+	.topic-detail-container .topic-title {
+		max-width: 300px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin-right: 24px;
+		font-size: 20px;
+	}
+
+	.topic-detail-container .topic-author {
+		margin-right: 24px;
+	}
+
+	.topic-detail-container .topic-add-to-fav-button {
+		margin-right: 24px;
+		outline: none;
+	}
+
+	.topic-detail-container .topic-add-to-fav-button:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+
+	.topic-detail-container .topic-createtime {
+		margin-right: 24px;
+	}
+
+	.topic-detail-container .topic-content-container {
+		margin-top: 24px;
+	}
+
+	.topic-detail-container .topic-content {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-height: 1.6;
+		outline: none;
+	}
+
+	.topic-detail-container .topic-content-normal {
+		line-height: 1.6;
+		outline: none;
+	}
+
+	.topic-detail-container .topic-comment-panel {
+		background-color: rgb(255, 255, 255);
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 1);
+		border-radius: 3px;
+		padding: 24px;
+		margin-top: 24px;
+		width: 586px;
+		margin-right: 24px;
+	}
+
+	.topic-detail-container .topic-author-description {
+		height: 300px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 3px;
+		padding: 24px;
+		margin-top: 24px;
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 1);
+	}
+
+	.topic-detail-container .expand-button,
+	.topic-detail-container .retract-button {
+		font-size: 14px;
+		color: #90caf9;
+		cursor: pointer;
+		outline: none;
+		margin-top: 8px;
+	}
+
+	.topic-detail-container .expand-button:hover,
+	.topic-detail-container .retract-button:hover {
+		color: #2196f3;
+	}
+
+	.topic-detail-container .reply-comment,
+	.topic-detail-container .check-conversation-comment {
+		margin-right: 16px;
+		margin-top: 16px;
+		font-size: 14px;
+		color: rgba(0, 0, 0, 0.54);
+		outline: none;
+	}
+
+	.topic-detail-container .reply-comment:hover,
+	.topic-detail-container .check-conversation-comment:hover {
+		color: #2196f3;
+		cursor: pointer;
+	}
+
+	.topic-detail-container .comment-title-container {
+		margin-top: 16px;
+		margin-bottom: 16px;
+	}
+
+	.topic-detail-container .comment-content-container {
+		margin-bottom: 8px;
+	}
+
+	.topic-detail-container .comment-operation-container {
+		margin-bottom: 16px;
+	}
+
+	.topic-detail-container .like-button-container {
+		margin-left: 8px;
+	}
+	.topic-detail-container .load-more-container {
+        width: 100%;
+        height: 24px;
+        margin-top: 16px;
+    }
+    .load-more-container .load-more-button {
+        color: rgba(0, 0, 0, 0.54);
+		outline: none;
+    }
+	.load-more-container .load-more-button:hover {
+        cursor: pointer;
+    }
+	.topic-comment-panel .comment-panel-header {
+		margin-bottom: 16px;
+	}
+
+	.topic-comment-panel .fa,
+	.like-number,
+	.dislike-number,
+	.topic-description-container .fa {
+		color: rgba(0, 0, 0, 0.38);
+	}
+
+	.topic-comment-panel .fa:hover {
+		color: #2196f3;
+		cursor: pointer;
+	}
+
+	.topic-comment-panel .new-comment-input-container {
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
+
+	.topic-comment-panel .new-comment-input {
+		height: 32px;
+		line-height: 32px;
+		font-size: 16px;
+	}
+
+	.topic-description-container .report-button,
+	.comment-card .report-comment-button {
+		color: rgba(0, 0, 0, 0.54);
+		outline: none;
+	}
+
+	.topic-description-container .report-button:hover,
+	.comment-card .report-comment-button:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+
+	.topic-description-container .topic-delete {
+		color: rgba(0, 0, 0, 0.54);
+		outline: none;
+		margin-left: 16px;
+	}
+
+	.topic-description-container .topic-delete:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+
+	.topic-author-description .author-basic-info {
+		padding: 16px;
+	}
+
+	.topic-author-description .author-operaiton {
+		padding-top: 10px;
+	}
+
+	.topic-author-description .tip-title {
+		margin-bottom: 14px;
+	}
+
+	.topic-author-description .number-tip {
+		color: rgba(0, 0, 0, 0.54);
+		outline: none;
+	}
+
+	.topic-author-description .number-tip:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+
+	.topic-author-description .author-other-info {
+		margin-top: 8px;
+	}
+
+	.topic-author-description .author-name {
+		outline: none;
+	}
+
+	.topic-author-description .author-name:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+
+	.comment-card .comment-delete-button {
+		color: rgba(0, 0, 0, 0.54);
+		margin-left: 16px;
+		outline: none;
+	}
+
+	.comment-card .comment-delete-button:hover {
+		color: lightblue;
+		cursor: pointer;
+	}
+</style><div class=topic-detail-container><div class=topic-description-container layout=column><div layout=row><div class="topic-title md-body-1" layout=row layout-align="start center">{{topic.Title}}</div><div class="topic-author md-body-1" layout=row layout-align="start center">{{topic.Author}}</div><div class="topic-add-to-fav-button md-body-1" layout=row layout-align="start center" ng-click=goAddTopicToFav($event)>收藏</div><div layout=row layout-align="start center"><span class=md-body-1>发布日期：</span> <span class="topic-createtime md-body-1">{{topic.CreatedAt | date: 'yy-MM-dd'}}</span></div><div layout=row layout-align="start center"><md-button class=md-icon-button ng-disabled=isChangingTopicLikeStauts ng-click=likeTheTopic($event)><i class="fa fa-thumbs-o-up" aria-hidden=true></i> <span class="md-body-1 like-number">{{'&nbsp;' + topic.LikeUser.length}}</span></md-button><md-button class=md-icon-button ng-disabled=isChangingTopicLikeStauts ng-click=dislikeTheTopic($event)><i class="fa fa-thumbs-o-down" aria-hidden=true></i> <span class="md-body-1 dislike-number">{{'&nbsp;' + topic.DislikeUser.length}}</span></md-button></div><div layout=row layout-align="start center" ng-show="user._id === topic.UserID"><span class="topic-delete md-body-1" ng-click=deleteTopic($event)>删除</span></div><div flex></div><div class="md-body-1 report-button" layout=row layout-align="start center" ng-click=reportTheTopic(ev)>举报</div></div><div class=topic-content-container layout=column><span class=topic-content ng-show=!topic.Expand>{{topic.Content}}</span> <span class=topic-content-normal ng-show=topic.Expand>{{topic.Content}}</span> <span class=expand-button ng-show=!topic.Expand ng-click=changeExpandState()>展开</span> <span class=retract-button ng-show=topic.Expand ng-click=changeExpandState()>收起</span></div></div><div layout=row><div class=topic-comment-panel><div class=comment-panel-header><span>讨论区</span></div><div class=new-comment-input-container layout=row layout-align="start center"><input class=new-comment-input type=text ng-model=newCommentContent flex><md-button class="md-primary md-raised" ng-click=addNewCommentToTopic($event)>评论</md-button></div><div class=comment-card ng-repeat="comment in commentList"><md-divider><div class=comment-title-container layout=row layout-align="start center"><span class=md-body-1>{{comment.Author}}</span> <span class=md-body-1 ng-show="comment.TargetUserID !== ''" topic>&nbsp;回复&nbsp;</span> <span class=md-body-1 ng-show="comment.TargetUserID !== ''">{{comment.TargetAuthor}}</span><div layout=row layout-align="start center"><span class=md-body-1>&nbsp;&nbsp;&nbsp;&nbsp;发表于</span> <span class=md-body-1>{{comment.CreatedAt | date:"MM/dd/yyyy '的' h:mma"}}</span></div><div class=like-button-container layout=row layout-align="start center"><md-button class=md-icon-button ng-disabled=isChangingLikeStauts ng-click="likeTheComment(comment, $event)"><i class="fa fa-thumbs-o-up" aria-hidden=true></i> <span class="md-body-1 like-number">{{'&nbsp;' + comment.LikeUser.length}}</span></md-button></div><div layout=row layout-align="start center"><md-button class=md-icon-button ng-disabled=isChangingLikeStauts ng-click="dislikeTheComment(comment, $event)"><i class="fa fa-thumbs-o-down" aria-hidden=true></i> <span class="md-body-1 dislike-number">{{'&nbsp;' + comment.DislikeUser.length}}</span></md-button></div><div layout=row layout-align="start center" ng-show="comment.UserID === user._id"><span class="md-body-1 comment-delete-button" ng-click="deleteComment(comment, $event)">删除</span></div><div flex></div><div layout=row layout-align="start center"><span class="md-body-1 report-comment-button" ng-click="reportTheComment(comment, $event);">举报</span></div></div><div class=comment-content-container><span class=md-body-1>{{comment.Content}}</span></div><div class=comment-operation-container layout=row layout-align="start center"><div layout=row layout-align="start center"><span class=reply-comment ng-click="commentReply(comment, $event)">回复</span> <span class=check-conversation-comment ng-show="comment.TargetUserID !== ''" ng-click="seeConversation(comment, $event)">查看对话</span></div></div></md-divider></div><div class=load-more-container layout=row layout-align=center ng-show=!disableLoadingMore><span class="load-more-button md-body-1" ng-click=loadMore()>加载更多</span></div></div><div class=topic-author-description flex><div class=tip-title><span class=md-body-1>发帖者</span></div><md-divider></md-divider><div class=author-basic-info><span class="md-body-1 author-name" ng-click=goToUserDetail()>{{topic.Author}}</span><div class=author-other-info layout=row layout-align="start center"><span class=md-body-1>发帖数：</span> <span class=number-tip>{{topicAuthor.TopicNumber}}</span></div><div class=author-other-info layout=row layout-align="start center"><span class=md-body-1>文章数：</span> <span class=number-tip>{{topicAuthor.ArticleNumber}}</span></div></div><md-divider></md-divider><div class=author-operaiton ng-hide="topic.UserID == user._id" layout=row layout-align="start center"><md-button class="md-raised md-primary" ng-click=followOperation($event)>{{followButtonText}}</md-button><md-button class="md-raised md-primary" ng-click=sendPrivateMessage($event)>发私信</md-button></div></div></div></div>

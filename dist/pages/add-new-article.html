@@ -1,0 +1,63 @@
+<style type=text/css>
+	.new-article-container {
+		width: 1032px;
+		margin: 0 auto;
+		padding-top: 24px;
+	}
+
+	.new-article-container .new-article {
+		background-color: rgb(255, 255, 255);
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 0.5);
+		padding: 24px;
+	}
+
+	.new-article-container .new-article-widget {
+		margin-bottom: 24px;
+	}
+
+	.new-article-container .new-article-title {
+		width: 100%;
+		margin-bottom: 24px;
+		height: 48px;
+		line-height: 48px;
+		font-size: 24px;
+	}
+
+	.rich-text-input p {
+		margin: 0px;
+	}
+
+	.rich-text-input .ta-scroll-window {
+		border: 1px solid rgba(0, 0, 0, 0.12);
+	}
+
+	.rich-text-input .btn-group {
+		display: inline-block;
+	}
+
+	.dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+	}
+
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+
+	#videoUploader {
+		position: absolute;
+		left: 620px;
+		color: rgba(0, 0, 0, 0.38);
+		height: 40px;
+		cursor: pointer;
+	}
+
+	#videoUploader:hover {
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	.upload-video {
+		width: 200px;
+		height: 200px;
+	}
+</style><div class=new-article-container><div class=uber-matte ng-show=isUploading layout=row layout-align="start center"><span class="md-body-1 matte-text" ng-bind="'正在上传 ' + uploadingProgress + '%'"></span></div><div class=new-article-widget layout=row layout-align="start center"><md-button class="md-primary md-raised" ng-disabled="article.Category === '' || article.Title === '' || article.Content === ''" ng-click=publishArticle($event)>发布</md-button><md-button class="md-primary md-raised" ng-click=saveAsDraft()>保存草稿</md-button><span class=md-body-1>草稿每30秒会自动保存一次</span></div><div class=new-article><md-input-container><label>请选择文章分类：</label><md-select ng-model=article.Category><md-option ng-repeat="item in categories" ng-value=item.Value>{{item.Title}}</md-option></md-select></md-input-container><div><input class=new-article-title type=text ng-model=article.Title placeholder=请输入文章标题></div><div><span id=videoUploader layout=row layout-align="start center"><i class="fa fa-video-camera small" aria-hidden=true></i></span><div id=editor ng-model=article.Content></div></div></div></div>

@@ -1,0 +1,25 @@
+<style type=text/css>
+	.dialog-content-container {
+		min-width: 500px !important;
+		height: 500px !important;
+		padding: 24px;
+	}
+	.dialog-content-container .topic-content {
+		height: 366px;
+		padding: 8px;
+		width: 100%;
+		margin: 24px 0px 24px 0px;
+		resize: none;
+	}
+	.dialog-content-container .topic-title {
+		width: 100%;
+		padding-left: 8px;
+	}
+	.dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+	}
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div layout=column><md-input-container><label>请选择分类：</label><md-select ng-model=topic.Category><md-option ng-repeat="item in categories" ng-value=item.Value>{{item.Title}}</md-option></md-select></md-input-container><input class=topic-title type=text ng-model=topic.Title placeholder=请输入帖子标题> <textarea class=topic-content ng-model=topic.Content placeholder=请输入帖子内容></textarea><md-button class="md-raised md-primary" ng-click=submit() ng-disabled="topic.Title === '' || topic.Content === '' || topic.Category === ''">提交</md-button></div></md-dialog>

@@ -1,0 +1,37 @@
+<style type=text/css>
+	.tree-container {
+		max-height: 145px; 
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.unit-item, .unit-title {
+		width: 550px;
+		height: 36px;
+		padding-left: 16px;
+		line-height: 36px;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		border-bottom: none;
+		border-radius: 1px;
+		cursor: pointer;
+		box-sizing: border-box;
+        outline: none;
+	}
+    .unit-title .path-title {
+        outline: none;
+    }
+	.unit-item:hover {
+		background-color: #fff3e0;
+	}
+	.return-icon {
+		font-size: 14px;
+		color: rgba(0, 0, 0, 0.38);
+		margin-right: 16px;
+	}
+	.unit-item-container {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	}
+	.selected {
+		width: 550px;
+		background-color: #fff3e0;
+	}
+</style><div class="tree-container narrow-scroll"><div class=unit-title layout=row layout-align="start center" ng-click=backToLastLayer(unitTreeItems[0])><span class="md-body-1 path-title">请选择举报类别：</span> <span class=md-body-1 ng-bind=getNewestPath()></span><div flex></div><i class="fa fa-reply return-icon" ng-show=showBackButton() aria-hidden=true></i></div><div class=unit-item-container><div class="md-body-1 unit-item" ng-class="{selected: item.Selected}" ng-repeat="item in unitTreeItems" ng-click=expandUnit(item)>{{item.Title}}</div></div></div>

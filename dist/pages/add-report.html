@@ -1,0 +1,22 @@
+<style type=text/css>
+	.dialog-content-container {
+		min-width: 500px !important;
+		height: 500px !important;
+		padding: 24px;
+	}
+	.dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+        margin-bottom: 16px;
+	}
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+	.dialog-content-container .report-content {
+		height: 300px;
+		padding: 8px;
+		width: 100%;
+		margin: 24px 0px 24px 0px;
+		resize: none;
+	}
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div layout=column><unit-tree></unit-tree><textarea class=report-content ng-model=reportObj.Content placeholder=请输入详细的举报原因></textarea><md-button class="md-raised md-primary" ng-click=submit() ng-disabled=disableSubmitButtonOrNot()>提交</md-button></div></md-dialog>

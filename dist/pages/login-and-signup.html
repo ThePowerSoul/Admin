@@ -1,0 +1,58 @@
+<style type=text/css>
+	.labelSelected {
+		color: #03a9f4;
+		position: relative;
+		height: 32px;
+		outline: none;
+	}
+
+	.labelSelected:after {
+		content: ' ';
+		position: absolute;
+		bottom: 4px;
+		left: -3px;
+		height: 2px;
+		width: calc(100% + 4px);
+		background-color: #03a9f4;
+	}
+
+	.signupLabel,
+	.loginPanel {
+		cursor: pointer;
+		font-size: 20px;
+		outline: none;
+	}
+
+	.loginPanel {
+		margin-left: 16px;
+	}
+
+	.dialog-content-container {
+		min-width: 500px !important;
+		height: 568px !important;
+		padding: 24px;
+	}
+
+	.panel-content {
+		background-color: rgb(255, 255, 255) !important;
+		overflow-x: hidden !important;
+	}
+
+	.dialog-content-container>.label-container {
+		width: 100%;
+	}
+
+	.dialog-content-container .dialog-close-button {
+		cursor: pointer;
+		outline: none;
+	}
+
+	.dialog-content-container .dialog-close-button:hover {
+		color: rgba(0, 0, 0, 0.12);
+	}
+
+	.dialog-content-container .input-tip {
+		font-size: 14px;
+		color: #f44336;
+	}
+</style><md-dialog class=dialog-content-container layout=column><div layout=row layout-align="start center"><div flex></div><div><i class="fa fa-times small dialog-close-button" ng-click=closeDialog($event) aria-hidden=true></i></div></div><div class=label-container layout=row layout-align=center><span class=signupLabel ng-class="{'labelSelected': flag}" ng-click="changePanel('signup')">注册</span> <span class=loginPanel ng-class="{'labelSelected': !flag}" ng-click="changePanel('login')">登录</span></div><div class=signupPanel ng-show=flag flex><md-content class="md-no-momentum panel-content"><form name=signupForm><md-input-container class="md-icon-float md-block"><input md-maxlength=10 placeholder=请输入姓名（10字内）... ng-disabled=isSigningup ng-model=newUser.Name type=text></md-input-container><md-input-container md-no-float class=md-block><input md-maxlength=10 placeholder=请输入昵称（5字内）... ng-disabled=isSigningup ng-model=newUser.DisplayName type=text></md-input-container><md-input-container md-no-float class=md-block><input ng-model=newUser.Email placeholder=请输入符合格式的邮箱... ng-disabled=isSigningup type=text><md-button class="md-raised md-primary" ng-bind=sendButtonText ng-disabled=disableVerifyEmailButtonOrNot() ng-click=verifyEmail($event)></md-button><span class=md-body-1 ng-show=isSendingEmailHasError>发生内部错误，请点击按钮重新发送</span></md-input-container><md-input-container md-no-float class=md-block><input ng-model=newUser.EmailVerifyCode placeholder=请输入收到的验证码 ng-disabled=isSigningup type=text></md-input-container><md-input-container md-no-float class=md-block><input ng-model=newUser.Password placeholder="请自由输入密码（>=6位即可）..." ng-disabled=isSigningup type=password></md-input-container><md-input-container md-no-float class=md-block><input ng-model=newUser.ConfirmPassword placeholder=请再输一次密码... ng-disabled=isSigningup type=password></md-input-container></form></md-content></div><div class=loginPanel ng-show=!flag flex><md-content class="md-no-momentum panel-content"><md-input-container class="md-icon-float md-block"><input ng-model=user.Email placeholder=请输入符合格式的邮箱... ng-disabled=isLogining type=text></md-input-container><md-input-container md-no-float class=md-block><input ng-model=user.Password placeholder=请输入密码... ng-disabled=isLogining type=password></md-input-container></md-content><div layout=row layout-align="center center"><span class=input-tip ng-bind=loginErrorText></span></div></div><md-button class="md-raised md-primary" ng-show=!flag ng-disabled="disableLoginButtonOrNot() || isLogining" ng-click=login($event)>{{loginButtonText}}</md-button><md-button class="md-raised md-primary" ng-show=flag ng-disabled="disableSignupButtonOrNot() || isSigningup" ng-click=signup($event)>{{signupButtonText}}</md-button></md-dialog>

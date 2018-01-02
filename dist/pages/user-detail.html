@@ -1,0 +1,59 @@
+<style type=text/css>
+	.user-detail-container {
+		width: 1032px;
+		height: 100%;
+		padding: 24px;
+		margin: 0 auto;
+	}
+
+	.user-detail-container .user-detail-bar {
+		height: 250px;
+		background-color: rgb(255, 255, 255);
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 0.5);
+	}
+
+	.user-detail-container .user-detail-info {
+		margin-top: 16px;
+		background-color: rgb(255, 255, 255);
+		box-shadow: 1.5px 1.5px 5px rgba(152, 152, 152, 0.5);
+		position: relative;
+	}
+
+	.user-detail-container .user-detail-info {
+		padding: 24px;
+	}
+
+	.user-detail-info .info-panel {
+		height: 36px;
+		margin-bottom: 24px;
+		margin-left: 100px;
+	}
+
+	.user-detail-info .user-detail-action-button {
+		color: rgba(0, 0, 0, 0.54);
+		cursor: pointer;
+	}
+
+	.user-detail-info .user-detail-action-button:hover {
+		color: #2196f3;
+		cursor: pointer;
+	}
+
+	.user-detail-container .profile-picture {
+		width: 100px;
+		height: 100px;
+	}
+	.user-detail-container .picture-info-panel {
+		min-height: 60px;
+		margin-left: 100px;
+		margin-bottom: 24px;
+	}
+	.profile-pic-progress {
+		position: absolute;
+		top: 62px;
+		left: 224px;;
+		width: 100px;
+		font-size: 24px;
+		color: darkblue;
+	}
+</style><div class=user-detail-container><div class=user-detail-bar></div><div class=user-detail-info><span class=profile-pic-progress ng-show=showProgress layout=row layout-align=center>{{progressBarProgress + '%'}}</span><div id=profilePictureContainer class=picture-info-panel layout=row layout-align="start center"><div layout=row layout-align="start center" flex><img class=profile-picture ng-src={{profilePictureSrc}}></div><md-button id=selectPicture class="md-raised md-primary">更换头像</md-button></div><div class=info-panel layout=row layout-align="start center"><div layout=row layout-align="start center" flex><span>姓名：</span> <span ng-bind=user.Name></span></div><md-button class="md-primary md-raised" ng-show=showActionButton ng-click=sendPrivateMessage($event)>发私信</md-button><md-button class="md-primary md-raised" ng-disabled=isOperating ng-click=followOperation() ng-bind=followButtonText ng-show=showActionButton></md-button></div><div class=info-panel layout=row layout-align="start center"><span>显示名：</span> <span ng-bind=user.DisplayName></span></div><div class=info-panel layout=row layout-align="start center"><span>邮箱：</span> <span ng-bind=user.Email></span></div><div class=info-panel layout=row layout-align="start center"><span>积分：</span> <span ng-bind=user.Point></span></div><div class=info-panel layout=row layout-align="start center" ng-show=!showActionButton><span class=user-detail-action-button flex=50>我的帖子</span> <span class=user-detail-action-button flex=50>我评论的帖子</span></div><div class=info-panel layout=row layout-align="start center" ng-show=showActionButton><span class=user-detail-action-button flex=50>他的帖子</span> <span class=user-detail-action-button flex=50>他评论的帖子</span></div></div></div>
