@@ -5,4 +5,7 @@
     .site-data-container .data-section {
         margin-top: 24px;
     }
-</style><div class=site-data-container><div class=data-section><span class=md-body-1>注册用户数 :</span> <span class=md-body-1 ng-bind=siteData.RegisteredUserNumber></span></div><div class=data-section><span class=md-body-1>最近活跃用户数 :</span> <span class=md-body-1 ng-bind=siteData.ActiveUserNumber></span></div><div class=data-section><span class=md-body-1>总帖子数 :</span> <span class=md-body-1 ng-bind=siteData.topicCount></span></div><div class=data-section><span class=md-body-1>总文章数 :</span> <span class=md-body-1 ng-bind=siteData.articleCount></span></div><md-button class="md-primary md-raised" ng-click=refresh()>刷新</md-button></div>
+    .site-data-container .refresh-button {
+        margin-top: 16px;
+    }
+</style><div class=site-data-container><div class=data-section><span class=md-body-1>注册用户数 :</span> <span class=md-display-1 ng-bind=siteData.RegisteredUserNumber></span></div><div class=data-section><span class=md-body-1>最近活跃用户数 :</span> <span class=md-display-1 ng-bind=siteData.ActiveUserNumber></span></div><div class=data-section><span class=md-body-1>总帖子数 :</span> <span class=md-display-1 ng-bind=siteData.TopicCount></span></div><div class=data-section><span class=md-body-1>总文章数 :</span> <span class=md-display-1 ng-bind=siteData.ArticleCount></span></div><md-button class="md-primary md-raised refresh-button" ng-click=refresh()>刷新</md-button></div>
