@@ -74,43 +74,135 @@
                 }
 
                 $scope.sendReply = function (message) {
-                    var body = {
-                        Content: message.Reply,
-                        UserName: '管理员',
-                        TargetUserName: message.Author
-                    }
-                    $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body)
-                        .then(function (response) {
-                            alertService.showAlert('发送成功, 请到私信板块查看完整对话');
-                            message.Reply = "";
-                        }, function (error) {
-                            alertService.showAlert('发送失败');
-                        });
+                    var confirm = $mdDialog.confirm()
+                        .title('提示')
+                        .textContent('该操作会直接将信息以官方身份发给举报者，确定发送？')
+                        .ariaLabel('Lucky day')
+                        .targetEvent()
+                        .ok('确定')
+                        .cancel('取消');
+
+                    $mdDialog.show(confirm).then(function () {
+                        var body = {
+                            Content: message.Reply,
+                            UserName: '管理员',
+                            TargetUserName: message.Author
+                        }
+                        $scope.isOperating = true;
+                        $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.TargetUserID, body)
+                            .then(function (response) {
+                                $scope.isOperating = false;
+                                alertService.showAlert('发送成功, 请到私信板块查看完整对话');
+                                message.Reply = "";
+                            }, function (error) {
+                                $scope.isOperating = false;
+                                alertService.showAlert('发送失败');
+                            });
+                    }, function () {
+                        // canceled
+                    });
                 };
 
-                $scope.sendWarn = function(message) {
-                    var body = {
-                        Content: message.Reply,
-                        UserName: '管理员',
-                        TargetUserName: message.Author
-                    }
-                    $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body)
-                        .then(function (response) {
-                            alertService.showAlert('发送成功, 请到私信板块查看完整对话');
-                            message.Reply = "";
-                        }, function (error) {
-                            alertService.showAlert('发送失败');
-                        });
+                $scope.sendWarn = function (message) {
+                    var confirm = $mdDialog.confirm()
+                        .title('提示')
+                        .textContent('该操作会直接将信息以官方身份发给被举报者，确定发送？')
+                        .ariaLabel('Lucky day')
+                        .targetEvent()
+                        .ok('确定')
+                        .cancel('取消');
+                    $mdDialog.show(confirm).then(function () {
+                        var body = {
+                            Content: message.Warn,
+                            UserName: '管理员',
+                            TargetUserName: message.Author
+                        }
+                        $scope.isOperating = true;
+                        $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body)
+                            .then(function (response) {
+                                $scope.isOperating = false;
+                                alertService.showAlert('发送成功, 请到私信板块查看完整对话');
+                                message.Warn = "";
+                            }, function (error) {
+                                $scope.isOperating = false;
+                                alertService.showAlert('发送失败');
+                            });
+                    }, function () {
+                        // canceled
+                    });
                 }
 
+                $scope.deleteTargetMessage = function (message) {
+                    var confirm = $mdDialog.prompt()
+                        .title('提示')
+                        .textContent('此操作将直接对被举报内容进行彻底删除，请再操作完成后同时对举报者和被举报者进行通知')
+                        .ariaLabel('Lucky day')
+                        .targetEvent()
+                        .ok('确定')
+                        .cancel('取消');
+                    $mdDialog.show(confirm).then(function (result) {
+                        switch (message.Type) {
+                            case 'COMMENT':
+                                $scope.isOperating = true;
+                                $http.delete(BaseUrl + '/comment/' + message.TargetID)
+                                    .then(function (response) {
+                                        alertService.showAlert('删除成功');
+                                        $scope.isOperating = false;
+                                    }, function (error) {
+                                        $scope.isOperating = false;
+                                        alertService.showAlert('删除失败，请重试');
+                                    });
+                                break;
+                            case 'TOPIC':
+                                $scope.isOperating = true;
+                                $http.delete(BaseUrl + '/topic/' + message.TargetID)
+                                    .then(function (response) {
+                                        $scope.isOperating = false;
+                                        alertService.showAlert('删除成功');
+                                    }, function (error) {
+                                        $scope.isOperating = false;
+                                        alertService.showAlert('删除失败，请重试');
+                                    });
+                                break;
+                            case 'ARTICLE':
+                                $scope.isOperating = true;
+                                $http.delete(BaseUrl + '/article/' + message.TargetID)
+                                    .then(function (response) {
+                                        $scope.isOperating = false;
+                                        alertService.showAlert('删除成功');
+                                    }, function (error) {
+                                        $scope.isOperating = false;
+                                        alertService.showAlert('删除失败，请重试');
+                                    });
+                                break;
+                        }
+                    }, function () {
+                        // canceled
+                    });
+                };
+
                 $scope.markRead = function (message) {
-                    $http.put(BaseUrl + '/complaint-message/' + message._id)
-                        .then(function (response) {
-                            alertService.showAlert('标记成功');
-                            message.Status = '1';
-                        }, function (error) {
-                            alertService.showAlert('标记失败，请重试');
-                        });
+                    var confirm = $mdDialog.prompt()
+                        .title('提示')
+                        .textContent('确定将改消息标记为已处理？')
+                        .ariaLabel('Lucky day')
+                        .targetEvent()
+                        .ok('确定')
+                        .cancel('取消');
+                    $mdDialog.show(confirm).then(function (result) {
+                        $scope.isOperating = true;
+                        $http.put(BaseUrl + '/complaint-message/' + message._id)
+                            .then(function (response) {
+                                alertService.showAlert('标记成功');
+                                $scope.isOperating = false;
+                                message.Status = '1';
+                            }, function (error) {
+                                $scope.isOperating = false;
+                                alertService.showAlert('标记失败，请重试');
+                            });
+                    }, function () {
+                        // canceled
+                    });
                 };
                 getReportMessages();
             }])

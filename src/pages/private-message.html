@@ -25,11 +25,16 @@
     .message-conversation .conversation-item {
         margin-bottom: 8px;
     }
+    .private-message-container .fa-circle {
+        color: red;
+    }
 </style>
 <div class="private-message-container">
-    <span class="md-title-sm">消息列表：</span>
-    <div class="private-message-item" ng-repeat="message in messages">
+    <span class="md-body-1" ng-show="isLoading">正在加载，请稍后...</span>
+    <span class="md-title-sm" ng-show="!isLoading">消息列表：</span>
+    <div class="private-message-item" ng-repeat="message in messages" ng-show="!isLoading">
         <!-- 原第一句消息内容 -->
+        <!-- <i class="fa fa-circle" ng-show="message.Status === '0'" aria-hidden="true"></i> -->
         <div class="message-list-item" ng-show="!message.$Expand">
             <span class="md-body-1" ng-bind="message.SenderName"></span>
             <span class="md-body-1">发送给</span>

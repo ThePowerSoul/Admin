@@ -23,7 +23,8 @@
     }
 </style>
 <div class="report-message-container">
-    <div class="report-message-item" ng-repeat="message in messages">
+    <span ng-show="isLoading">正在加载，请稍后...</span>
+    <div class="report-message-item" ng-repeat="message in messages" ng-show="!isLoading">
         <div layout="row" layout-align="start center">
             <span class="md-body-1">举报者：</span>
             <span class="md-body-1" ng-bind="message.Author"></span>
@@ -48,14 +49,15 @@
             <span class="md-body-1">处理情况：</span>
             <span class="md-body-1" ng-style="{color: message.Status === '1' ? '#4caf50' : 'red'}" ng-bind="message.Status | statusFilter"></span>
         </div>
-        <md-button ng-show="message.Status === '0'" ng-click="markRead(message)">标记为已处理</md-button>
+        <md-button ng-show="message.Status === '0'" ng-click="markRead(message)" ng-disabled="isOperating">标记为已处理</md-button>
+        <md-button ng-click="deleteTargetMessage(message)" ng-disabled="isOperating">删除被举报的帖子</md-button>
         <div class="send-reply-container" layout="row" layout-align="start center">
-            <textarea class="reply-input" type="text" ng-model="message.Reply"></textarea>
-            <md-button class="md-raised" ng-click="sendReply(message)" ng-disabled="message.Reply === ''">回复举报者</md-button>
+            <textarea class="reply-input" type="text" ng-model="message.Reply" ng-disabled="isOperating"></textarea>
+            <md-button class="md-raised" ng-click="sendReply(message)" ng-disabled="message.Reply === '' || isOperating">回复举报者</md-button>
         </div>
         <div class="send-warn-container" layout="row" layout-align="start center">
-            <textarea class="reply-input" type="text" ng-model="message.Warn"></textarea>
-            <md-button class="md-raised" ng-click="sendWarn(message)" ng-disabled="message.Warn === ''">回复被举报者</md-button>
+            <textarea class="reply-input" type="text" ng-model="message.Warn" ng-disabled="isOperating"></textarea>
+            <md-button class="md-raised" ng-click="sendWarn(message)" ng-disabled="message.Warn === '' || isOperating">回复被举报者</md-button>
         </div>
     </div>
 </div>

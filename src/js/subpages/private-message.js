@@ -1,13 +1,25 @@
 (function () {
     'use strict';
     angular.module('The.Power.Soul.Private.Message.Center', ['ngMaterial'])
-        .controller('privateMessageCtrl', ['$scope', '$http', 'BaseUrl', 'Admin', 'alertService',
-            function ($scope, $http, BaseUrl, Admin, alertService) {
+        .controller('privateMessageCtrl', ['$scope', '$http', '$mdDialog', 'BaseUrl', 'Admin', 'alertService',
+            function ($scope, $http, $mdDialog, BaseUrl, Admin, alertService) {
                 $scope.messages = [];
-                $scope.disableLoadMore = false;
+                $scope.isLoading = false;
                 var pageNum = 1;
 
                 $scope.expandConversation = function (message) {
+                    // var userID;
+                    // if (message.SenderID === Admin) {
+                    //     userID = message.TargetID;
+                    // } else {
+                    //     userID = message.SenderID;
+                    // }
+                    // $http.put(BaseUrl + '/private-message/' + Admin + '/' + userID)
+                    //     .then(function (response) {
+
+                    //     }, function (error) {
+                    //         //
+                    //     });
                     message.$Expand = true;
                     getMessageConversation(false, message);
                 };
@@ -20,30 +32,42 @@
                 }
 
                 $scope.sendNewMessage = function (message) {
-                    var body = {
-                        Content: message.NewMessage,
-                        UserName: '',
-                        TargetUserName: ''
-                    }
-                    var targetID;
-                    if (message && message.SenderID === Admin) {
-                        body.UserName = "管理员";
-                        body.TargetUserName = message.ReceiverName;
-                        targetID = message.TargetID;
-                    } else if (message && message.TargetID === Admin) {
-                        body.UserName = "管理员";
-                        body.TargetUserName = message.SenderName;
-                        targetID = message.SenderID;
-                    }
-                    $http.post(BaseUrl + '/private-message/' + Admin + '/' + targetID, body)
-                        .then(function (response) {
-                            alertService.showAlert('发送成功');
-                            message.Messages.unshift(body);
-                            message.NewMessage = "";
-                        }, function (error) {
-                            alertService.showAlert('发送失败');
-                            message.NewMessage = "";
-                        });
+                    var confirm = $mdDialog.confirm()
+                        .title('提示')
+                        .textContent('该操作会直接以管理员身份发信息给用户，确定发送？')
+                        .ariaLabel('Lucky day')
+                        .targetEvent()
+                        .ok('确定')
+                        .cancel('取消');
+
+                    $mdDialog.show(confirm).then(function () {
+                        var body = {
+                            Content: message.NewMessage,
+                            UserName: '',
+                            TargetUserName: ''
+                        }
+                        var targetID;
+                        if (message && message.SenderID === Admin) {
+                            body.UserName = "管理员";
+                            body.TargetUserName = message.ReceiverName;
+                            targetID = message.TargetID;
+                        } else if (message && message.TargetID === Admin) {
+                            body.UserName = "管理员";
+                            body.TargetUserName = message.SenderName;
+                            targetID = message.SenderID;
+                        }
+                        $http.post(BaseUrl + '/private-message/' + Admin + '/' + targetID, body)
+                            .then(function (response) {
+                                alertService.showAlert('发送成功');
+                                message.Messages.unshift(body);
+                                message.NewMessage = "";
+                            }, function (error) {
+                                alertService.showAlert('发送失败');
+                                message.NewMessage = "";
+                            });
+                    }, function () {
+                        // canceled
+                    });
                 };
 
                 $scope.loadMore = function (isLoadingMore, message) {
@@ -77,8 +101,10 @@
                 }
 
                 function getMessageList() {
+                    $scope.isLoading = true;
                     $http.get(BaseUrl + '/user/' + Admin)
                         .then(function (response) {
+                            $scope.isLoading = false;
                             $scope.messages = response.data.MostRecentConversation;
                             $scope.messages.forEach(function (message) {
                                 message.$Expand = false;
@@ -90,6 +116,7 @@
                             });
                         }, function (error) {
                             //
+                            $scope.isLoading = false;
                         });
                 }
                 getMessageList();

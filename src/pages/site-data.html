@@ -10,21 +10,22 @@
     }
 </style>
 <div class="site-data-container">
-    <div class="data-section">
+    <span ng-show="isLoading">正在加载，请稍后...</span>
+    <div class="data-section" ng-show="!isLoading">
         <span class="md-body-1">注册用户数 : </span>
         <span class="md-display-1" ng-bind="siteData.RegisteredUserNumber"></span>
     </div>
-    <div class="data-section">
+    <div class="data-section" ng-show="!isLoading">
         <span class="md-body-1">最近活跃用户数 : </span>
         <span class="md-display-1" ng-bind="siteData.ActiveUserNumber"></span>
     </div>
-    <div class="data-section">
+    <div class="data-section" ng-show="!isLoading">
         <span class="md-body-1">总帖子数 : </span>
         <span class="md-display-1" ng-bind="siteData.TopicCount"></span>
     </div>
-    <div class="data-section">
+    <div class="data-section" ng-show="!isLoading">
         <span class="md-body-1">总文章数 : </span>
         <span class="md-display-1" ng-bind="siteData.ArticleCount"></span>
     </div>
-    <md-button class="md-primary md-raised refresh-button" ng-click="refresh()">刷新</md-button>
+    <md-button class="md-primary md-raised refresh-button" ng-disabled="isLoading" ng-click="refresh()">刷新</md-button>
 </div>

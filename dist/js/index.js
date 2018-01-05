@@ -33,12 +33,24 @@
 (function () {
     'use strict';
 
-    angular.module('The.Power.Soul.Private.Message.Center', ['ngMaterial']).controller('privateMessageCtrl', ['$scope', '$http', 'BaseUrl', 'Admin', 'alertService', function ($scope, $http, BaseUrl, Admin, alertService) {
+    angular.module('The.Power.Soul.Private.Message.Center', ['ngMaterial']).controller('privateMessageCtrl', ['$scope', '$http', '$mdDialog', 'BaseUrl', 'Admin', 'alertService', function ($scope, $http, $mdDialog, BaseUrl, Admin, alertService) {
         $scope.messages = [];
-        $scope.disableLoadMore = false;
+        $scope.isLoading = false;
         var pageNum = 1;
 
         $scope.expandConversation = function (message) {
+            // var userID;
+            // if (message.SenderID === Admin) {
+            //     userID = message.TargetID;
+            // } else {
+            //     userID = message.SenderID;
+            // }
+            // $http.put(BaseUrl + '/private-message/' + Admin + '/' + userID)
+            //     .then(function (response) {
+
+            //     }, function (error) {
+            //         //
+            //     });
             message.$Expand = true;
             getMessageConversation(false, message);
         };
@@ -51,28 +63,34 @@
         };
 
         $scope.sendNewMessage = function (message) {
-            var body = {
-                Content: message.NewMessage,
-                UserName: '',
-                TargetUserName: ''
-            };
-            var targetID;
-            if (message && message.SenderID === Admin) {
-                body.UserName = "管理员";
-                body.TargetUserName = message.ReceiverName;
-                targetID = message.TargetID;
-            } else if (message && message.TargetID === Admin) {
-                body.UserName = "管理员";
-                body.TargetUserName = message.SenderName;
-                targetID = message.SenderID;
-            }
-            $http.post(BaseUrl + '/private-message/' + Admin + '/' + targetID, body).then(function (response) {
-                alertService.showAlert('发送成功');
-                message.Messages.unshift(body);
-                message.NewMessage = "";
-            }, function (error) {
-                alertService.showAlert('发送失败');
-                message.NewMessage = "";
+            var confirm = $mdDialog.confirm().title('提示').textContent('该操作会直接以管理员身份发信息给用户，确定发送？').ariaLabel('Lucky day').targetEvent().ok('确定').cancel('取消');
+
+            $mdDialog.show(confirm).then(function () {
+                var body = {
+                    Content: message.NewMessage,
+                    UserName: '',
+                    TargetUserName: ''
+                };
+                var targetID;
+                if (message && message.SenderID === Admin) {
+                    body.UserName = "管理员";
+                    body.TargetUserName = message.ReceiverName;
+                    targetID = message.TargetID;
+                } else if (message && message.TargetID === Admin) {
+                    body.UserName = "管理员";
+                    body.TargetUserName = message.SenderName;
+                    targetID = message.SenderID;
+                }
+                $http.post(BaseUrl + '/private-message/' + Admin + '/' + targetID, body).then(function (response) {
+                    alertService.showAlert('发送成功');
+                    message.Messages.unshift(body);
+                    message.NewMessage = "";
+                }, function (error) {
+                    alertService.showAlert('发送失败');
+                    message.NewMessage = "";
+                });
+            }, function () {
+                // canceled
             });
         };
 
@@ -106,7 +124,9 @@
         }
 
         function getMessageList() {
+            $scope.isLoading = true;
             $http.get(BaseUrl + '/user/' + Admin).then(function (response) {
+                $scope.isLoading = false;
                 $scope.messages = response.data.MostRecentConversation;
                 $scope.messages.forEach(function (message) {
                     message.$Expand = false;
@@ -118,6 +138,7 @@
                 });
             }, function (error) {
                 //
+                $scope.isLoading = false;
             });
         }
         getMessageList();
@@ -195,39 +216,104 @@
         }
 
         $scope.sendReply = function (message) {
-            var body = {
-                Content: message.Reply,
-                UserName: '管理员',
-                TargetUserName: message.Author
-            };
-            $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body).then(function (response) {
-                alertService.showAlert('发送成功, 请到私信板块查看完整对话');
-                message.Reply = "";
-            }, function (error) {
-                alertService.showAlert('发送失败');
+            var confirm = $mdDialog.confirm().title('提示').textContent('该操作会直接将信息以官方身份发给举报者，确定发送？').ariaLabel('Lucky day').targetEvent().ok('确定').cancel('取消');
+
+            $mdDialog.show(confirm).then(function () {
+                var body = {
+                    Content: message.Reply,
+                    UserName: '管理员',
+                    TargetUserName: message.Author
+                };
+                $scope.isOperating = true;
+                $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.TargetUserID, body).then(function (response) {
+                    $scope.isOperating = false;
+                    alertService.showAlert('发送成功, 请到私信板块查看完整对话');
+                    message.Reply = "";
+                }, function (error) {
+                    $scope.isOperating = false;
+                    alertService.showAlert('发送失败');
+                });
+            }, function () {
+                // canceled
             });
         };
 
         $scope.sendWarn = function (message) {
-            var body = {
-                Content: message.Reply,
-                UserName: '管理员',
-                TargetUserName: message.Author
-            };
-            $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body).then(function (response) {
-                alertService.showAlert('发送成功, 请到私信板块查看完整对话');
-                message.Reply = "";
-            }, function (error) {
-                alertService.showAlert('发送失败');
+            var confirm = $mdDialog.confirm().title('提示').textContent('该操作会直接将信息以官方身份发给被举报者，确定发送？').ariaLabel('Lucky day').targetEvent().ok('确定').cancel('取消');
+            $mdDialog.show(confirm).then(function () {
+                var body = {
+                    Content: message.Warn,
+                    UserName: '管理员',
+                    TargetUserName: message.Author
+                };
+                $scope.isOperating = true;
+                $http.post(BaseUrl + '/private-message/' + Admin + '/' + message.UserID, body).then(function (response) {
+                    $scope.isOperating = false;
+                    alertService.showAlert('发送成功, 请到私信板块查看完整对话');
+                    message.Warn = "";
+                }, function (error) {
+                    $scope.isOperating = false;
+                    alertService.showAlert('发送失败');
+                });
+            }, function () {
+                // canceled
+            });
+        };
+
+        $scope.deleteTargetMessage = function (message) {
+            var confirm = $mdDialog.prompt().title('提示').textContent('此操作将直接对被举报内容进行彻底删除，请再操作完成后同时对举报者和被举报者进行通知').ariaLabel('Lucky day').targetEvent().ok('确定').cancel('取消');
+            $mdDialog.show(confirm).then(function (result) {
+                switch (message.Type) {
+                    case 'COMMENT':
+                        $scope.isOperating = true;
+                        $http.delete(BaseUrl + '/comment/' + message.TargetID).then(function (response) {
+                            alertService.showAlert('删除成功');
+                            $scope.isOperating = false;
+                        }, function (error) {
+                            $scope.isOperating = false;
+                            alertService.showAlert('删除失败，请重试');
+                        });
+                        break;
+                    case 'TOPIC':
+                        $scope.isOperating = true;
+                        $http.delete(BaseUrl + '/topic/' + message.TargetID).then(function (response) {
+                            $scope.isOperating = false;
+                            alertService.showAlert('删除成功');
+                        }, function (error) {
+                            $scope.isOperating = false;
+                            alertService.showAlert('删除失败，请重试');
+                        });
+                        break;
+                    case 'ARTICLE':
+                        $scope.isOperating = true;
+                        $http.delete(BaseUrl + '/article/' + message.TargetID).then(function (response) {
+                            $scope.isOperating = false;
+                            alertService.showAlert('删除成功');
+                        }, function (error) {
+                            $scope.isOperating = false;
+                            alertService.showAlert('删除失败，请重试');
+                        });
+                        break;
+                }
+            }, function () {
+                // canceled
             });
         };
 
         $scope.markRead = function (message) {
-            $http.put(BaseUrl + '/complaint-message/' + message._id).then(function (response) {
-                alertService.showAlert('标记成功');
-                message.Status = '1';
-            }, function (error) {
-                alertService.showAlert('标记失败，请重试');
+            var confirm = $mdDialog.prompt().title('提示').textContent('确定将改消息标记为已处理？').ariaLabel('Lucky day').targetEvent().ok('确定').cancel('取消');
+            $mdDialog.show(confirm).then(function (result) {
+                $scope.isOperating = true;
+                $http.put(BaseUrl + '/complaint-message/' + message._id).then(function (response) {
+                    alertService.showAlert('标记成功');
+                    $scope.isOperating = false;
+                    message.Status = '1';
+                }, function (error) {
+                    $scope.isOperating = false;
+                    alertService.showAlert('标记失败，请重试');
+                });
+            }, function () {
+                // canceled
             });
         };
         getReportMessages();
